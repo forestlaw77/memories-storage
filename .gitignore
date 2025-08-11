@@ -1,0 +1,52 @@
+# Python に関連するキャッシュファイル・コンパイル済みファイル
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# 仮想環境ディレクトリ（venv や virtualenv）
+venv/
+.env/
+.venv/
+
+# ストレージに関するファイル
+local_storage/
+content/
+meta/
+thumbnails/
+cache/
+
+# IDE（VSCode、PyCharm など）の設定ファイル
+.vscode/
+.vscode-server/
+.idea/
+*.swp
+
+# ログ・デバッグ・一時ファイル
+logs/
+*.log
+*.tmp
+junk/
+
+# 秘密情報（環境変数や認証情報など）
+.env
+*.key
+config/settings_local.py
+config/secrets.json
+
+# Django / Flask などのウェブフレームワーク関連
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+
+# Docker関連
+docker-compose.override.yml
+swagger/swagger copy.yaml
+
+# backup
+*~
+old_git/

@@ -1,0 +1,38 @@
+Commercial License Agreement
+
+Copyright (c) 2025 Tsutomu FUNADA
+
+🔒 A commercial license is an important way to help us keep developing and to ensure you can use the software with confidence.
+(商用ライセンスは、みなさまに安心して使っていただくため、そして開発を続けるための大切な仕組みです。)
+
+This Commercial License Agreement (“Agreement”) is made between the copyright
+holder (“Licensor”) and the licensee (“Licensee”).
+
+1. Grant of License
+   The Licensor grants the Licensee a non-exclusive, non-transferable license
+   to use, modify, and distribute the Software for Commercial Purposes.
+
+2. Definition of Commercial Purposes
+   "Commercial Purposes" means use of the Software in connection with any
+   product or service intended for commercial advantage or monetary
+   compensation.
+
+3. Fees and Payment
+   The Licensee shall pay the licensing fee agreed upon in writing between the
+   parties prior to commercial use.
+
+4. Restrictions
+   Except as expressly permitted in this Agreement, the Licensee may not:
+   - Remove or alter copyright notices
+   - Redistribute the Software without attribution
+   - Sub-license the Software without written permission
+
+5. Warranty Disclaimer
+   THE SOFTWARE IS PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND.
+
+6. Governing Law
+   This Agreement shall be governed by and construed in accordance with the
+   laws of the jurisdiction of the Licensor.
+
+To obtain a commercial license, please contact:
+Email: [forestlaw.me+github@gmail.com]

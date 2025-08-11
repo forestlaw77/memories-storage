@@ -1,0 +1,38 @@
+authlib # OAuth
+ebooklib # EPUB
+flask # Framework
+flask-cors # Framework
+flask-swagger # Swagger
+flask-swagger-ui # Swagger
+gunicorn # 使ってない?
+numpy # videos で利用する
+pathlib # Filesystem
+pdf2image # PDF thumbnail
+piexif # exiftool を使っているので、piexif の出番なし
+pillow # Image処理
+pillow-heif # HEIC Open
+psycopg2-binary # PostgreSQL
+pyheif # pillow-heifでたりてるから使ってないかも
+pymupdf # PDF 使うかも
+python-docx # Microsoft Word
+python-dotenv # .env
+python-magic # mimetype 調査
+requests # 通信
+ulid-py # Resource ID
+watchdog # 多分、使っていない
+# librosa
+# matplotlib
+# mido
+# piano_transcription_inference
+# torch
+# torchvision
+# torchaudio
+opencv-python-headless
+mutagen
+aiofiles
+geopy
+celery
+requests
+google-auth
+google-auth-oauthlib
+google-api-python-client

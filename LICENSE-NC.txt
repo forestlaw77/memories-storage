@@ -1,0 +1,26 @@
+MIT License – Non-Commercial Use Only
+
+Copyright (c) 2025 Tsutomu FUNADA
+
+🔒 This non-commercial license is an important way to help us keep developing and to ensure you can use the software with confidence.
+(この非商用ライセンスは、みなさまに安心して使っていただくため、そして開発を続けるための大切な仕組みです。)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the “Software”), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, subject to the following condition:
+
+    The Software may NOT be used for Commercial Purposes under this license.
+
+For the purposes of this license, "Commercial Purposes" means use of the
+Software in connection with any product or service intended for commercial
+advantage or monetary compensation.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

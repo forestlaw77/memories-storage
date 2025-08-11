@@ -1,0 +1,1688 @@
+openapi: 3.0.4
+info:
+  title: Memories - File Management API
+  description: An API for managing and storing files
+  version: 1.0.0
+servers:
+  - url: http://localhost:4001/v1
+tags:
+  - name: common
+  - name: books
+  - name: documents
+  - name: images
+  - name: music
+  - name: videos
+components:
+  schemas:
+    basic_meta:
+      type: object
+      description: |
+        Optional system-generated metadata for the resource.
+        Typically includes timestamps and associated content details.
+      properties:
+        registration_datetime:
+          type: string
+          format: date-time
+        update_at:
+          type: string
+          format: date-time
+        content_ids:
+          type: array
+          items:
+            type: integer
+        contents:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              filename:
+                type: string
+              mimetype:
+                type: string
+      # example:
+      #   registration_datetime: "2025-04-20T13:50:40+09:00"
+      #   update_at: "2025-04-20T13:50:40+09:00"
+      #   content_ids: [1]
+      #   contents:
+      #     - id: 1
+      #       filename: "multimediaStorage.pdf"
+      #       mimetype: "application/pdf"
+
+    detail_meta:
+      type: object
+      description: User-defined metadata for the resource.
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        description:
+          type: string
+      # example:
+      #   title: "Multimedia Storage"
+      #   author: "Tsutomu Funada"
+      #   description: "A comprehensive guide to multimedia storage solutions."
+
+    response_data:
+      type: object
+      description: Optional data payload, varies by API.
+      properties:
+        content:
+          type: string
+          description: Base64-encoded content (if applicable).
+        mimetype:
+          type: string
+          description: MIME type of the content.
+      #example:
+      #  content: "<base64-encoded string>"
+      #  mimetype: "application/pdf"
+
+    resource_meta:
+      type: object
+      description: Complete metadata for a resource, including `basic_meta` and `detail_meta`.
+      properties:
+        basic_meta:
+          $ref: "#/components/schemas/basic_meta"
+        detail_meta:
+          $ref: "#/components/schemas/detail_meta"
+    CommonSuccessResponse:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          description: |
+            The status of the response. 
+            Possible values:
+            - `"success"`: The operation completed successfully.
+            - `"warning"`: The operation was successful but with warnings.
+          example: success
+        message:
+          type: string
+          description: |
+            User-friendly message describing the outcome of the operation.
+            This helps clients understand what happened at a glance.
+        #  example: Resource created successfully.
+        resource_id:
+          type: string
+          nullable: true
+          description: |
+            The unique identifier of the resource affected by the request.
+            If applicable, this is returned when a resource is created or modified.
+        #  example: "123e4567-e89b-12d3-a456-426614174000"
+        content_id:
+          type: integer
+          nullable: true
+          description: |
+            The unique identifier of the content within the resource.
+            This is included if the operation affects specific content.
+        #  example: 1
+        basic_meta:
+          $ref: "#/components/schemas/basic_meta"
+        detail_meta:
+          $ref: "#/components/schemas/detail_meta"
+        response_data:
+          $ref: "#/components/schemas/response_data"
+      additionalProperties: false
+
+    CommonErrorResponse:
+      type: object
+      required:
+        - status
+        - message
+        - error
+      properties:
+        status:
+          type: string
+          description: |
+            The status of the response indicating an error occurred.
+          example: error
+        message:
+          type: string
+          description: |
+            A user-friendly error message describing the issue.
+          # example: Invalid input data.
+        error:
+          type: string
+          description: |
+            A developer-focused error message providing specific details about the failure.
+          # example: The provided data was not valid.
+      additionalProperties: false
+
+  parameters:
+    resourceTypePathParam:
+      in: path
+      name: resource_type
+      required: true
+      schema:
+        type: string
+        enum:
+          - books
+          - documents
+          - images
+          - music
+          - videos
+      description: |
+        Specifies the type of resource to retrieve. 
+        Allowed values: 
+        - `books`: Book-related resources.
+        - `documents`: General document-related resources.
+        - `images`: Image files.
+        - `music`: Audio files.
+        - `videos`: Video resources.
+
+    resourceIdPathParam:
+      in: path
+      name: resource_id
+      required: true
+      schema:
+        type: string
+      description: |
+        Specifies the unique identifier for a resource. 
+        This is used to retrieve, update, or delete a specific resource instance.
+
+    contentIdPathParam:
+      in: path
+      name: content_id
+      required: true
+      schema:
+        type: integer
+      description: |
+        Specifies the unique identifier for content within a resource. 
+        Typically used when retrieving or modifying specific content items.
+paths:
+  /{resource_type}:
+    get:
+      summary: Retrieves a list of resource IDs for a specific resource type.
+      description: |
+        Retrieves a list of resource IDs for the specified resource type
+        for the authenticated user. Supports pagination using `page` and `per_page`
+        query parameters.
+      tags:
+        - common
+      parameters:
+        - $ref: "#/components/parameters/resourceTypePathParam"
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+          description: The page number for pagination.
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            minimum: 1
+          description: The number of items per page for pagination.
+        - in: query
+          name: order
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum:
+              - sorting_string
+              - sorting_date
+              - created_at
+              - updated_at
+              - filename
+              - id
+      responses:
+        "200":
+          description: Successful retrieval of resource IDs.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  #  - $ref: '#/components/schemas/CommonSuccessResponse'
+                  - type: object
+                    properties:
+                      status:
+                        type: string
+                        example: success
+                      message:
+                        type: string
+                        example: Resource IDs retrieved successfully.
+                      response_data:
+                        type: object
+                        properties:
+                          resource_ids:
+                            type: array
+                            items:
+                              type: string
+                          total_items:
+                            type: integer
+                          page:
+                            type: integer
+                          per_page:
+                            type: integer
+                        example:
+                          resource_ids: ["abc123", "def456", "ghi789"]
+                          total_items: 100
+                          page: 1
+                          per_page: 10
+        "400":
+          description: Invalid pagination parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+
+    post:
+      summary: Create a new resource.
+      operationId: makeResource
+      description: |
+        Creates a new resource by uploading metadata and/or content.
+        If `generate-thumbnail=true` is specified:
+        - For `books`, the system attempts to retrieve a cover image from `cover_image_url` in metadata to generate a thumbnail if no `thumbnail-file` is provided..
+        - For `images`, the system generates a thumbnail from the uploaded `content-file` if no `thumbnail-file` is provided.
+      tags:
+        - common
+      parameters:
+        - $ref: "#/components/parameters/resourceTypePathParam"
+        - in: query
+          name: generate-thumbnail
+          required: false
+          schema:
+            type: boolean
+          description: If true, attempts to auto-generate a thumbnail based on resource type logic.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                detail-file:
+                  type: string
+                  format: binary
+                  description: Metadata JSON file containing resource details.
+                content-file:
+                  type: string
+                  format: binary
+                  description: Content file for the resource.
+                thumbnail-file:
+                  type: string
+                  format: binary
+                  description: Optional thumbnail file (overrides auto-generation if provided).
+      responses:
+        "201":
+          description: Resource created successfully.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      status:
+                        type: string
+                        example: success
+                      message:
+                        type: string
+                        example: Resource created successfully.
+                      resource_id:
+                        type: string
+                        description: The unique ID of the created resource.
+                        example: "123e4567-e89b-12d3-a456-426614174000"
+                      content_id:
+                        type: integer
+                        description: The unique ID of the created content.
+                  # - $ref: "#/components/schemas/CommonSuccessResponse"
+        "400":
+          description: Invalid metadata or missing content.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+        "500":
+          description: Internal server error while creating the resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+
+  /{resource_type}/detail:
+    post:
+      summary: Create a new resource with detailed metadata.
+      operationId: makeResource
+      description: |
+        Creates a new resource by uploading metadata and/or content.
+        But you definitely need detailed metadata `detail-file`.
+        If `generate-thumbnail=true` is specified:
+        - For `books`, the system attempts to retrieve a cover image from `book_cover_image_url` in metadata to generate a thumbnail if no `thumbnail-file` is provided.
+        - For `images`, the system generates a thumbnail from the uploaded `content-file` if no `thumbnail-file` is provided.
+      tags:
+        - common
+      parameters:
+        - in: path
+          name: resource_type
+          required: true
+          schema:
+            type: string
+            enum:
+              - books
+              - documents
+              - images
+              - music
+              - videos
+          description: The type of resource to create (books, documents, etc.).
+        - in: query
+          name: generate-thumbnail
+          required: false
+          schema:
+            type: boolean
+          description: If true, attempts to auto-generate a thumbnail based on resource type logic.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - detail-file
+              properties:
+                detail-file:
+                  type: string
+                  format: binary
+                  description: Metadata JSON file containing resource details.
+                content-file:
+                  type: string
+                  format: binary
+                  description: Content file for the resource.
+                thumbnail-file:
+                  type: string
+                  format: binary
+                  description: Optional thumbnail file (overrides auto-generation if provided).
+      responses:
+        "201":
+          description: Resource created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+                  message:
+                    type: string
+                  resource_id:
+                    type: string
+                    description: The unique ID of the created resource.
+                  content_id:
+                    type: integer
+                    description: The unique ID of the created content.
+        "400":
+          description: Invalid metadata or missing content.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+        "500":
+          description: Internal server error while creating the resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+
+  /{resource_type}/contents:
+    post:
+      summary: Create a new resource with content file.
+      operationId: makeResource
+      description: |
+        Creates a new resource by uploading metadata and/or content.
+        But you definitely need content `content-file`.
+        If `generate-thumbnail=true` is specified:
+        - For `books`, the system attempts to retrieve a cover image from `book_cover_image_url` in metadata to generate a thumbnail if no `thumbnail-file` is provided..
+        - For `images`, the system generates a thumbnail from the uploaded `content-file` if no `thumbnail-file` is provided.
+      tags:
+        - common
+      parameters:
+        - in: path
+          name: resource_type
+          required: true
+          schema:
+            type: string
+            enum:
+              - books
+              - documents
+              - images
+              - music
+              - videos
+          description: The type of resource to create (books, documents, etc.).
+        - in: query
+          name: generate-thumbnail
+          required: false
+          schema:
+            type: boolean
+          description: If true, attempts to auto-generate a thumbnail based on resource type logic.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - content-file
+              properties:
+                detail-file:
+                  type: string
+                  format: binary
+                  description: Metadata JSON file containing resource details.
+                content-file:
+                  type: string
+                  format: binary
+                  description: Content file for the resource.
+                thumbnail-file:
+                  type: string
+                  format: binary
+                  description: Optional thumbnail file (overrides auto-generation if provided).
+      responses:
+        "201":
+          description: Resource created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+                  message:
+                    type: string
+                  resource_id:
+                    type: string
+                    description: The unique ID of the created resource.
+                  content_id:
+                    type: integer
+                    description: The unique ID of the created content.
+        "400":
+          description: Invalid metadata or missing content.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+        "500":
+          description: Internal server error while creating the resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+
+  /{resource_type}/{resource_id}:
+    get:
+      summary: "Retrieve resource metadata"
+      description: "Retrieves detail for a specific resource."
+      operationId: getResourceMeta
+      tags:
+        - common
+      parameters:
+        - in: path
+          name: resource_type
+          required: true
+          schema:
+            type: string
+            enum:
+              - books
+              - documents
+              - images
+              - music
+              - videos
+          description: The type of resource to remove (books, documents, etc.).
+          $ref: "#/components/parameters/resourceIdPathParam"
+      responses:
+        "200":
+          description: "Successfully retrieved metadata"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  resource_id:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      metadata:
+                        type: object
+        "400":
+          description: "Bad Request - Resource ID is required"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "404":
+          description: "Not Found - Resource does not exist"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+    put:
+      summary: "Update resource details"
+      description: "Handles updating detail for an existing resource."
+      tags:
+        - common
+      parameters:
+        - name: resource_id
+          in: path
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                detail-file:
+                  type: string
+                  format: binary
+                  description: "JSON-formatted metadata file for the resource."
+      responses:
+        "200":
+          description: "Resource details updated successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  resource_id:
+                    type: string
+        "400":
+          description: "Bad Request - Resource ID or detail file is required"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "404":
+          description: "Not Found - Resource does not exist"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "500":
+          description: "Internal Server Error - Failed to save updated details"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+    delete:
+      summary: Delete a resource by resource ID.
+      description: Deletes a specific resource identified by resource_id.
+      tags:
+        - common
+      parameters:
+        - in: path
+          name: resource_type
+          required: true
+          schema:
+            type: string
+            enum:
+              - books
+              - documents
+              - images
+              - music
+              - videos
+          description: The type of resource to remove (books, documents, etc.).
+        - in: path
+          name: resource_id
+          required: true
+          schema:
+            type: string
+          description: The unique ID of the resource to be deleted.
+      responses:
+        "204":
+          description: The resource was successfully deleted (No Content).
+        "400":
+          description: Resource ID is required.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+        "404":
+          description: The resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+        "500":
+          description: Internal server error occurred while deleting the resource.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+
+  /{resource_type}/{resource_id}/meta:
+    get:
+      summary: "Alias for retrieveing resource metadata"
+      description: "Retrieves detail for a specific resource."
+      operationId: getResourceMeta
+      tags:
+        - common
+      parameters:
+        - name: resource_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Successfully retrieved metadata"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  resource_id:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      metadata:
+                        type: object
+        "400":
+          description: "Bad Request - Resource ID is required"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "404":
+          description: "Not Found - Resource does not exist"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+    put:
+      summary: "Update resource details"
+      operationId: putResourceDetail
+      description: "Handles updating detail for an existing resource."
+      tags:
+        - common
+      parameters:
+        - name: resource_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                detail-file:
+                  type: string
+                  format: binary
+                  description: "JSON-formatted metadata file for the resource."
+      responses:
+        "200":
+          description: "Resource details updated successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  resource_id:
+                    type: string
+        "400":
+          description: "Bad Request - Resource ID or detail file is required"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "404":
+          description: "Not Found - Resource does not exist"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "500":
+          description: "Internal Server Error - Failed to save updated details"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+
+  /{resource_type}/{resource_id}/detail:
+    put:
+      summary: "Alias for Updating resource details"
+      operationId: putResourceMeta
+      description: "Handles updating detail for an existing resource."
+      tags:
+        - common
+      parameters:
+        - name: resource_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                detail-file:
+                  type: string
+                  format: binary
+                  description: "JSON-formatted metadata file for the resource."
+      responses:
+        "200":
+          description: "Resource details updated successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  resource_id:
+                    type: string
+        "400":
+          description: "Bad Request - Resource ID or detail file is required"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "404":
+          description: "Not Found - Resource does not exist"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "500":
+          description: "Internal Server Error - Failed to save updated details"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+
+  /{resource_type}/{resource_id}/contents:
+    get:
+      summary: Retrieves a list of resource IDs for a specific resource type.
+      description: |
+        Retrieves a list of resource IDs for the specified resource type
+        for the authenticated user. Supports pagination using `page` and `per_page`
+        query parameters.
+      tags:
+        - common
+      parameters:
+        - $ref: "#/components/parameters/resourceTypePathParam"
+        - in: path
+          name: resource_id
+          required: true
+          schema:
+            type: string
+          description: The unique ID of the resource to retrieve content IDs for.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+          description: The page number for pagination.
+        - in: query
+          name: per_page
+          schema:
+            type: integer
+            minimum: 1
+          description: The number of items per page for pagination.
+      responses:
+        "200":
+          description: Successful retrieval of resource IDs.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  #  - $ref: '#/components/schemas/CommonSuccessResponse'
+                  - type: object
+                    properties:
+                      status:
+                        type: string
+                        example: success
+                      message:
+                        type: string
+                        example: Resource IDs retrieved successfully.
+                      response_data:
+                        type: object
+                        properties:
+                          resource_ids:
+                            type: array
+                            items:
+                              type: string
+                          total_items:
+                            type: integer
+                          page:
+                            type: integer
+                          per_page:
+                            type: integer
+                        example:
+                          resource_ids: ["abc123", "def456", "ghi789"]
+                          total_items: 100
+                          page: 1
+                          per_page: 10
+    post:
+      summary: "Add new content to a resource"
+      description: "Adds new content to an existing resource while maintaining previous data. If a content file with the same extension already exists, it will be replaced only if its hash differs."
+      operationId: postResourceContentAddition
+      tags:
+        - common
+      parameters:
+        - $ref: "#/components/parameters/resourceTypePathParam"
+        - name: resource_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: generate-thumbnail
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+            description: "If true, generates a thumbnail for the content file."
+        - name: auto-exif
+          in: path
+          required: false
+          schema:
+            type: boolean
+            default: true
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                content-file:
+                  type: string
+                  format: binary
+                  description: "File containing the content to be added."
+      responses:
+        "201":
+          description: "Content added successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  resource_id:
+                    type: string
+                  content_id:
+                    type: string
+        "400":
+          description: "Bad Request - Invalid content file or duplicate content detected"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "404":
+          description: "Not Found - Resource does not exist"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "500":
+          description: "Internal Server Error - Failed to save content"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+
+  /{resource_type}/{resource_id}/contents/{content_id}:
+    get:
+      summary: "Retrieve resource content"
+      description: "Retrieves content for a specific resource using content ID or file extension. If binary=true is provided, returns raw binary data."
+      tags:
+        - common
+      operationId: getResourceContent
+      parameters:
+        - name: resource_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: content_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: binary
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: "If true, returns content as raw binary data."
+      responses:
+        "200":
+          description: "Content retrieved successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  resource_id:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      extension:
+                        type: string
+                      content:
+                        type: string
+                        description: "Base64 encoded content"
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: "Bad Request - Either content ID or extension is required"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "404":
+          description: "Not Found - Content or metadata does not exist"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "500":
+          description: "Internal Server Error - Content conversion failed"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+    put:
+      summary: "Update existing content for a resource"
+      description: "Updates existing content for a given resource. Only overwrites if the content already exists in metadata."
+      operationId: putResourceContent
+      tags:
+        - common
+      parameters:
+        - $ref: "#/components/parameters/resourceTypePathParam"
+        - name: resource_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: content_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: generate-thumbnail
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+            description: "If true, generates a new thumbnail for the updated content."
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                content-file:
+                  type: string
+                  format: binary
+                  description: "File containing the updated content."
+      responses:
+        "200":
+          description: "Content updated successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  resource_id:
+                    type: string
+                  content_id:
+                    type: string
+        "400":
+          description: "Bad Request - Invalid content file or missing parameters"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "404":
+          description: "Not Found - Resource or content does not exist"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "500":
+          description: "Internal Server Error - Failed to save updated content"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+    delete:
+      summary: Delete content of a specific resource, keeping metadata and thumbnail.
+      description: Deletes only the content of a specific resource while preserving metadata and thumbnail.
+      tags:
+        - common
+      parameters:
+        - in: path
+          name: resource_type
+          required: true
+          schema:
+            type: string
+            enum:
+              - books
+              - documents
+              - images
+              - music
+              - videos
+          description: The type of resource containing the content to delete.
+        - in: path
+          name: resource_id
+          required: true
+          schema:
+            type: string
+          description: The unique ID of the resource.
+        - in: path
+          name: content_id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the content to be deleted.
+      responses:
+        "204":
+          description: Content successfully deleted (No Content).
+        "400":
+          description: Resource ID or Content ID is required.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+        "404":
+          description: The specified resource or content was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+        "500":
+          description: Internal server error occurred while deleting the content.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+
+  /{resource_type}/{resource_id}/thumbnail:
+    get:
+      summary: "Retrieve resource thumbnail"
+      description: "Retrieves the thumbnail for a specific resource. If binary=true is provided, returns raw binary data."
+      operationId: getResourceThumbnail
+      tags:
+        - common
+      parameters:
+        - in: path
+          name: resource_type
+          required: true
+          schema:
+            type: string
+            enum:
+              - books
+              - documents
+              - images
+              - music
+              - videos
+          description: The type of resource to remove (books, documents, etc.).
+        - in: path
+          name: resource_id
+          required: true
+          schema:
+            type: string
+        - name: thumbnail_size
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ["original", "small", "medium", "large"]
+            default: "medium"
+            description: "Size of the thumbnail to retrieve (default is medium)."
+        - name: binary
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: "If true, returns the thumbnail as raw binary data."
+      responses:
+        "200":
+          description: "Thumbnail retrieved successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  resource_id:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      thumbnail:
+                        type: string
+                        description: "Base64 encoded thumbnail image"
+            image/webp:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: "Bad Request - Invalid thumbnail size or missing resource ID"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "404":
+          description: "Not Found - Thumbnail does not exist"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+    put:
+      summary: "Update resource thumbnail"
+      description: "Updates the thumbnail of an existing resource while maintaining metadata and content."
+      operationId: putResourceThumbnail
+      tags:
+        - common
+      parameters:
+        - in: path
+          name: resource_type
+          required: true
+          schema:
+            type: string
+            enum:
+              - books
+              - documents
+              - images
+              - music
+              - videos
+          description: The type of resource to remove (books, documents, etc.).
+        - name: resource_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                thumbnail-file:
+                  type: string
+                  format: binary
+                  description: "File containing the new thumbnail image."
+      responses:
+        "200":
+          description: "Thumbnail updated successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  resource_id:
+                    type: string
+        "400":
+          description: "Bad Request - Invalid thumbnail file or missing parameters"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "500":
+          description: "Internal Server Error - Failed to save updated thumbnail"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+
+  /books/content:
+    post:
+      # ...
+      tags:
+        - books
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: # オブジェクトレベルでの必須プロパティ指定
+                - content-file
+                # - 他の必須プロパティ
+              properties:
+                detail-file:
+                  type: string
+                  format: binary
+                  description: The detail file of the book to upload (expected in JSON format).
+                content-file:
+                  type: string
+                  format: binary
+                  description: The content file of the book to upload.
+                thumbnail-file:
+                  type: string
+                  format: binary
+                  description: Optional manually uploaded thumbnail image.
+                generate-thumbnail:
+                  type: boolean
+                  description: >-
+                    Download the image from the "cover_image_url" specified in the detail-file and generate a thumbnail (default: True). Can also be sent as a query parameter.
+      parameters:
+        - name: generate-thumbnail
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: >-
+            If True, automatically generate thumbnail from content-file
+            (default: True). Can also be sent as form data.
+      responses:
+        "201":
+          description: Book content uploaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonSuccessResponse"
+        "400":
+          description: Invalid request for book content.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+        "500":
+          description: Internal server error occurred.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+
+  /images/content:
+    post:
+      # ...
+      tags:
+        - images
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: # オブジェクトレベルでの必須プロパティ指定
+                - content-file
+                # - 他の必須プロパティ
+              properties:
+                detail-file:
+                  type: string
+                  format: binary
+                  description: The detail file of the image to upload (expected in JSON format).
+                content-file:
+                  type: string
+                  format: binary
+                  description: The content file of the image to upload.
+                thumbnail-file:
+                  type: string
+                  format: binary
+                  description: Optional manually uploaded thumbnail image.
+                generate-thumbnail:
+                  type: boolean
+                  description: >-
+                    If True, automatically generate thumbnail from content-file
+                    (default: True). Can also be sent as a query parameter.
+      parameters:
+        - name: generate-thumbnail
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: >-
+            If True, automatically generate thumbnail from content-file
+            (default: True). Can also be sent as form data.
+      responses:
+        "201":
+          description: Image content uploaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonSuccessResponse"
+        "400":
+          description: No content file was provided, or the request format is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+        "500":
+          description: Internal server error occurred.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommonErrorResponse"
+
+  /books/{resource_id}/contents/{content_id}:
+    get:
+      summary: "Retrieve resource content"
+      description: "Retrieves content for a specific resource using content ID or file extension. If binary=true is provided, returns raw binary data."
+      tags:
+        - books
+      operationId: getResourceContent
+      parameters:
+        - name: resource_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: content_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: format
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - docx
+              - epub
+              - pdf
+              - txt
+        - name: binary
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: "If true, returns content as raw binary data."
+      responses:
+        "200":
+          description: "Content retrieved successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  resource_id:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      extension:
+                        type: string
+                      content:
+                        type: string
+                        description: "Base64 encoded content"
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: "Bad Request - Either content ID or extension is required"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "404":
+          description: "Not Found - Content or metadata does not exist"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string
+        "500":
+          description: "Internal Server Error - Content conversion failed"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  error:
+                    type: string

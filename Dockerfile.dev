@@ -1,0 +1,48 @@
+# ベースイメージとしてPythonを使用
+FROM python:3.12-slim
+
+# 環境変数: ユーザーID / グループID を指定
+ARG USERNAME=forestlaw
+ARG UID=1000
+ARG GID=1000
+
+# 必要なツールとライブラリをインストール
+RUN apt-get update && apt-get install -y \
+    sudo \
+    git \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libjpeg-dev \
+    libpng-dev \
+    libtiff-dev \
+    libheif1 libheif-dev \
+    build-essential \
+    python3-magic \
+    libimage-exiftool-perl \
+    poppler-utils \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+
+# ユーザー・グループの作成 & ユーザー追加
+RUN groupadd --gid ${GID} ${USERNAME} \
+    && useradd --uid ${UID} --gid ${GID} --shell /bin/bash --create-home ${USERNAME} \
+    && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# 作業ディレクトリを設定
+WORKDIR /src
+
+# requirements.txtをコンテナにコピー
+COPY requirements.txt /src/
+
+# requirements.txtを利用してPythonライブラリをインストール
+RUN pip install --no-cache-dir -r requirements.txt
+
+# アプリケーションファイルをコンテナにコピー
+COPY . /src
+
+# ユーザ権限を適用し、デフォルトの実行ユーザを変更
+USER ${USERNAME}
+
+# アプリケーションのデフォルトコマンド
+CMD ["sh", "-c", "python app.py || tail -f /dev/null"]
+

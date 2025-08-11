@@ -1,0 +1,26 @@
+# 軽量な Python ベースイメージを使用
+FROM python:3.12-slim
+
+# 作業ディレクトリを指定
+WORKDIR /app
+
+# 依存関係のみを先にコピーし、キャッシュ効率を高める
+COPY requirements.txt ./
+
+# 本番環境に必要なライブラリだけインストール（可能であれば --no-dev で）
+RUN pip install --no-cache-dir -r requirements.txt
+
+# アプリケーションのコードをコピー
+COPY . .
+
+# 環境変数を明示しておくと安心
+ENV PYTHONUNBUFFERED=1
+
+# 必要に応じて PORT や設定ファイルのパスなどを ENV で指定してもOK
+# ENV STORAGE_DIRECTORY=/data
+
+# ポートを公開（任意）
+EXPOSE 4001
+
+# 本番用の起動コマンドを設定
+CMD ["python", "app.py"]
