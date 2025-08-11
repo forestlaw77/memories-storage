@@ -1,0 +1,29 @@
+# ========================
+# 🔐 Authentication Config
+# ========================
+
+# Google OAuth credentials (used for verifying tokens or user identity)
+GOOGLE_CLIENT_ID=your_google_client_id_here
+GOOGLE_CLIENT_SECRET=your_google_client_secret_here
+
+
+# ========================
+# 📦 Storage Configuration
+# ========================
+
+# Path to local storage directory (mounted via Docker volume)
+STORAGE_DIRECTORY=/local_storage
+
+
+# ========================
+# 🛠️ Server Configuration
+# ========================
+
+# Port the storage server listens on
+PORT=4001
+
+# Optional: Enable verbose logging for debugging
+LOG_LEVEL=info  # Options: debug, info, warn, error
+
+# Optional: Maximum file upload size (in bytes)
+MAX_UPLOAD_SIZE=10485760  # 10MB
