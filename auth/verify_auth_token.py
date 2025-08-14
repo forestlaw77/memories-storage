@@ -5,6 +5,7 @@
 # You may not use this software for commercial purposes under the MIT License.
 
 import logging
+import os
 import uuid
 from functools import wraps
 
@@ -19,6 +20,8 @@ from config.settings import (
 
 TEST_MODE = False
 
+SKIP_AUTH = os.getenv("SKIP_AUTH", "false").lower() == "true"
+
 
 def verify_oauth_token(f):
     """OAuth トークンを検証し、ユーザー情報をリクエスト全体で保持"""
@@ -29,6 +32,18 @@ def verify_oauth_token(f):
             logging.debug(
                 f"--- DEBUG: Detected OPTIONS method. Skipping token verification for path: {request.path}"
             )
+            return f(*args, **kwargs)
+
+        if SKIP_AUTH:
+            logging.debug(
+                "[verify_oauth_token] SKIP_AUTH is enabled. Injecting local-user."
+            )
+            g.user_info = {
+                "email": "local@example.com",
+                "sub": "local-user",
+                "provider": "local",
+            }
+            g.auth_provider = "local"
             return f(*args, **kwargs)
 
         if TEST_MODE:
@@ -99,6 +114,7 @@ def get_user_id(user_info: dict, provider: str) -> str:
     """OAuth プロバイダーに関係なく統一された 36 桁の user_id を生成"""
     provider_map = {
         "test": user_info.get("id", ""),
+        "local": user_info.get("sub", "") or user_info.get("id", ""),
         "google": user_info.get("sub", "") or user_info.get("id", ""),
         "microsoft": user_info.get("oid", "") or user_info.get("sub", ""),
         "github": str(user_info.get("id", "")),

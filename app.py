@@ -11,7 +11,7 @@ from authlib.integrations.flask_client import OAuth
 from flask import Flask, g, jsonify, request, url_for
 from flask_cors import CORS
 
-from auth.verify_auth_token import verify_oauth_token
+# from auth.verify_auth_token import verify_oauth_token
 from config.settings import ALLOWED_ORIGINS, FLASK_DEBUG, PORT, PROVIDERS
 
 # Initialize Flask application

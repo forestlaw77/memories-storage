@@ -6,13 +6,19 @@
 
 import os
 
+from dotenv import load_dotenv
+
+from utils.misc import str_to_bool
+
+load_dotenv(dotenv_path="/src/.env.local")
+
 # 運用時は下記のパラメータを適切に修正しなければならない
-ALLOWED_ORIGINS = "*"  # os.getenv("ALLOWED_ORIGINS", "http://localhost")
-FLASK_DEBUG = True  # os.getenv("FLASK_DEBUG", "False").lower() in ["true", "1"]
-PORT = 4001
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost")
+FLASK_DEBUG = str_to_bool(os.getenv("FLASK_DEBUG", "False"))
+PORT = os.getenv("PORT", 4001)
 
 # リソースを保存するルートディレクトリ
-STORAGE_DIRECTORY = os.getenv("STORAGE_DIRECTORY", "/local_storage")
+STORAGE_DIRECTORY = os.getenv("STORAGE_DIRECTORY", "/src/local_storage")
 
 # メタ情報をファイルシステムに保存する。(False: DB保存)
 SAVE_META_IN_FILE_SYSTEM = True
@@ -27,12 +33,15 @@ SOUND_THUMBNAIL_ENABLE = False
 SWAGGER_URL = "/api/docs"
 SWAGGER_API_URL = "/swagger.json"
 
+# 認証スキップ
+SKIP_AUTH = str_to_bool(os.getenv("SKIP_AUTH", "false"))
 
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 
-# if not GOOGLE_CLIENT_ID or not GOOGLE_CLIENT_SECRET:
-#     raise ValueError("Missing Google OAuth credentials in environment variables.")
+## SKIP_AUTH が false の時は、GOOGLE_CLIENT_ID、GOOGLE_CLIENT_SECRET は必須
+if not SKIP_AUTH and (not GOOGLE_CLIENT_ID or not GOOGLE_CLIENT_SECRET):
+    raise ValueError("Missing Google OAuth credentials in environment variables.")
 
 # GOOGLE_OAUTH_USERINFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo"
 GOOGLE_OAUTH_USERINFO_URL = "https://openidconnect.googleapis.com/v1/userinfo"

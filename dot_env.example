@@ -2,6 +2,9 @@
 # 🔐 Authentication Config
 # ========================
 
+# Local Mode (No Authentication)
+SKIP_AUTH=true
+
 # Google OAuth credentials (used for verifying tokens or user identity)
 GOOGLE_CLIENT_ID=your_google_client_id_here
 GOOGLE_CLIENT_SECRET=your_google_client_secret_here
@@ -12,7 +15,7 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret_here
 # ========================
 
 # Path to local storage directory (mounted via Docker volume)
-STORAGE_DIRECTORY=/local_storage
+STORAGE_DIRECTORY=/src/local_storage
 
 
 # ========================

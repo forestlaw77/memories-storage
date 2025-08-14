@@ -5,17 +5,30 @@
 # You may not use this software for commercial purposes under the MIT License.
 
 import logging
+import os
 from functools import wraps
 
 from flask import g, jsonify, request
 
 from auth.factory import get_oauth_provider
 from auth.utils import detect_provider
+from config.settings import SKIP_AUTH
 
 
 def verify_oauth_token_auto(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        if SKIP_AUTH:
+            logging.debug("--- DEBUG: SKIP_AUTH is enabled. Injecting mock user.")
+            g.user_info = {
+                "email": "local@example.com",
+                "name": "Local User",
+                "provider": "local",
+                "sub": "local-user-id",
+            }
+            g.auth_provider = "local"
+            return f(*args, **kwargs)
+
         if request.method == "OPTIONS":
             logging.debug(
                 f"--- DEBUG: Detected OPTIONS method. Skipping token verification for path: {request.path}"
