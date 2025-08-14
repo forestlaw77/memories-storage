@@ -1,0 +1,1049 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../config/">
+      
+      
+        <link rel="next" href="../models/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Manager - Memories Storage Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#manager" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Memories Storage Docs" class="md-header__button md-logo" aria-label="Memories Storage Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Memories Storage Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Manager
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/forestlaw77/memories-storage" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Memories Storage Docs" class="md-nav__button md-logo" aria-label="Memories Storage Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Memories Storage Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/forestlaw77/memories-storage" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Memories Storage Docs
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Memories Storage Docs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Auth
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Config
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Manager
+    
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Storage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Utils
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<p><a id="manager"></a></p>
+<h1 id="manager">manager</h1>
+<p><a id="manager.image_processor"></a></p>
+<h1 id="managerimage_processor">manager.image_processor</h1>
+<p><a id="manager.image_processor.ImageProcessor"></a></p>
+<h2 id="imageprocessor-objects">ImageProcessor Objects</h2>
+<pre><code class="language-python">class ImageProcessor()
+</code></pre>
+<p><a id="manager.image_processor.ImageProcessor.convert_image"></a></p>
+<h4 id="convert_image">convert_image</h4>
+<pre><code class="language-python">def convert_image(src_path: Union[str, Path, FileStorage, BytesIO],
+                  dest_path: str,
+                  format: Optional[str] = None,
+                  width: Optional[int] = None,
+                  height: Optional[int] = None,
+                  quality: int = 85,
+                  fit_mode: ImageFitMode = ImageFitMode.CONTAIN,
+                  keep_exif: bool = False) -&gt; str
+</code></pre>
+<p>Convert an image to the specified format and resize it based on <code>fit_mode</code>.</p>
+<p>Optionally, preserve EXIF metadata if requested.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>src_path</code>: Source image file path</li>
+<li><code>dest_path</code>: Destination file path where converted image will be saved</li>
+<li><code>format</code>: Target format (e.g., 'JPEG', 'PNG', 'WEBP', 'BMP', etc.)</li>
+<li><code>width</code>: Desired width of the bounding box (optional)</li>
+<li><code>height</code>: Desired height of the bounding box (optional)</li>
+<li><code>quality</code>: JPEG compression quality (default: 85)</li>
+<li><code>fit_mode</code>: How the image should fit within the bounding box
+(ImageFitMode.CONTAIN or ImageFitMode.COVER)</li>
+<li><code>keep_exif</code>: Whether to retain EXIF metadata (only for supported formats)</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<p>Path to the converted image</p>
+<p><a id="manager.image_processor.ImageProcessor.update_exif"></a></p>
+<h4 id="update_exif">update_exif</h4>
+<pre><code class="language-python">def update_exif(image_file: Union[str, BytesIO, FileStorage,
+                                  Path], mimetype: Optional[str],
+                update_items: Dict[str, Any]) -&gt; Union[bool, BytesIO]
+</code></pre>
+<p>Updates selective Exif metadata fields of the image.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li>image_file: Input image source</li>
+<li>mimetype: MIME type of the image</li>
+<li>update_items: Dictionary of Exif tag → new value</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li>BytesIO: If the input was BytesIO or FileStorage, returns the updated image as BytesIO.</li>
+<li>True: If the input was a file path and the update succeeded.</li>
+<li>False: If the update failed</li>
+</ul>
+<p><a id="manager.audio_processor"></a></p>
+<h1 id="manageraudio_processor">manager.audio_processor</h1>
+<p><a id="manager.audio_processor.AudioProcessor"></a></p>
+<h2 id="audioprocessor-objects">AudioProcessor Objects</h2>
+<pre><code class="language-python">class AudioProcessor()
+</code></pre>
+<p>Class for processing audio files, including format conversion and visualization.</p>
+<p><a id="manager.audio_processor.AudioProcessor.extract_thumbnail_mp4"></a></p>
+<h4 id="extract_thumbnail_mp4">extract_thumbnail_mp4</h4>
+<pre><code class="language-python">def extract_thumbnail_mp4(content_buffer: BytesIO) -&gt; Optional[BytesIO]
+</code></pre>
+<p>Extracts album art from an MP4/M4A file.</p>
+<p><a id="manager.audio_processor.AudioProcessor.extract_thumbnail_mp3"></a></p>
+<h4 id="extract_thumbnail_mp3">extract_thumbnail_mp3</h4>
+<pre><code class="language-python">def extract_thumbnail_mp3(audio_path: str) -&gt; Optional[BytesIO]
+</code></pre>
+<p>Extracts album art from an MP3 file.</p>
+<p><a id="manager.audio_processor.AudioProcessor.extract_thumbnail_ogg"></a></p>
+<h4 id="extract_thumbnail_ogg">extract_thumbnail_ogg</h4>
+<pre><code class="language-python">def extract_thumbnail_ogg(audio_path: str) -&gt; Optional[BytesIO]
+</code></pre>
+<p>Extracts album art from an OGG Vorbis file.</p>
+<p><a id="manager.audio_processor.AudioProcessor.extract_thumbnail_flac"></a></p>
+<h4 id="extract_thumbnail_flac">extract_thumbnail_flac</h4>
+<pre><code class="language-python">def extract_thumbnail_flac(audio_path: str) -&gt; Optional[BytesIO]
+</code></pre>
+<p>Extracts album art from a FLAC file.</p>
+<p><a id="manager.audio_processor.AudioProcessor.extract_audio_thumbnail"></a></p>
+<h4 id="extract_audio_thumbnail">extract_audio_thumbnail</h4>
+<pre><code class="language-python">def extract_audio_thumbnail(content_buffer: BytesIO,
+                            mimetype: str) -&gt; Optional[BytesIO]
+</code></pre>
+<p>Extracts thumbnail from audio metadata.</p>
+<p><a id="manager.audio_processor.AudioProcessor.convert_audio"></a></p>
+<h4 id="convert_audio">convert_audio</h4>
+<pre><code class="language-python">def convert_audio(format: str, content: bytes,
+                  mimetype: str) -&gt; Optional[bytes]
+</code></pre>
+<p>Converts an audio file to the specified format.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>format</code> <em>str</em> - The target audio format (e.g., 'mp3', 'wav').</li>
+<li><code>content</code> <em>bytes</em> - The binary content of the audio file.</li>
+<li><code>mimetype</code> <em>str</em> - The MIME type of the input file.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>Optional[bytes]</code> - The binary content of the converted audio file,
+  or None if the format is unsupported.</li>
+</ul>
+<p><strong>Raises</strong>:</p>
+<ul>
+<li><code>ValueError</code> - If the requested format conversion is not supported.</li>
+</ul>
+<p><a id="manager.audio_processor.AudioProcessor.generate_waveform_thumbnail"></a></p>
+<h4 id="generate_waveform_thumbnail">generate_waveform_thumbnail</h4>
+<pre><code class="language-python">def generate_waveform_thumbnail(audio_path: Union[str, BytesIO],
+                                filetype: str) -&gt; Optional[BytesIO]
+</code></pre>
+<p>Generates a waveform thumbnail image from an audio file.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>audio_path</code> <em>Union[str, BytesIO]</em> - Path to the audio file or BytesIO buffer.</li>
+<li><code>filetype</code> <em>str</em> - The format of the input audio file (e.g., 'mp3', 'wav').</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>BytesIO</code> - A buffer containing the generated waveform image in PNG format.</li>
+</ul>
+<p><a id="manager.audio_processor.AudioProcessor.generate_spectrogram_thumbnail"></a></p>
+<h4 id="generate_spectrogram_thumbnail">generate_spectrogram_thumbnail</h4>
+<pre><code class="language-python">def generate_spectrogram_thumbnail(audio_path: Union[str, BytesIO],
+                                   filetype: str) -&gt; Optional[BytesIO]
+</code></pre>
+<p>Generates a spectrogram thumbnail image from an audio file.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>audio_path</code> <em>str</em> - Path to the audio file.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>BytesIO</code> - A buffer containing the generated spectrogram image in PNG format.</li>
+</ul>
+<p><a id="manager.audio_processor.AudioProcessor.generate_piano_roll_thumbnail"></a></p>
+<h4 id="generate_piano_roll_thumbnail">generate_piano_roll_thumbnail</h4>
+<pre><code class="language-python">def generate_piano_roll_thumbnail(
+        midi_path: Union[str, BytesIO]) -&gt; Optional[BytesIO]
+</code></pre>
+<p>Generates a piano roll image from a MIDI file.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>midi_path</code> <em>Union[str, BytesIO]</em> - Path or binary content of the MIDI file.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>BytesIO</code> - A buffer containing the piano roll image in PNG format.</li>
+</ul>
+<p><a id="manager.audio_processor.AudioProcessor.fetch_artwork"></a></p>
+<h4 id="fetch_artwork">fetch_artwork</h4>
+<pre><code class="language-python">def fetch_artwork(album_name: str, artist_name: str) -&gt; Optional[BytesIO]
+</code></pre>
+<p>Fetches album artwork from iTunes or MusicBrainz and returns it as BytesIO.</p>
+<p><a id="manager.audio_processor.AudioProcessor.fetch_itunes_artwork"></a></p>
+<h4 id="fetch_itunes_artwork">fetch_itunes_artwork</h4>
+<pre><code class="language-python">def fetch_itunes_artwork(album_name: str, artist_name: str) -&gt; Optional[str]
+</code></pre>
+<p>Fetches album artwork URL from iTunes API with dynamic resizing.</p>
+<p><a id="manager.audio_processor.AudioProcessor.fetch_musicbrainz_artwork"></a></p>
+<h4 id="fetch_musicbrainz_artwork">fetch_musicbrainz_artwork</h4>
+<pre><code class="language-python">def fetch_musicbrainz_artwork(album_name: str,
+                              artist_name: str) -&gt; Optional[str]
+</code></pre>
+<p>Fetches album artwork URL from MusicBrainz API.</p>
+<p><a id="manager.audio_processor.AudioProcessor.fetch_musicbrainz_release_id"></a></p>
+<h4 id="fetch_musicbrainz_release_id">fetch_musicbrainz_release_id</h4>
+<pre><code class="language-python">def fetch_musicbrainz_release_id(album_name: str,
+                                 artist_name: str) -&gt; Optional[str]
+</code></pre>
+<p>Fetches MBID from MusicBrainz API for the given album and artist.</p>
+<p><a id="manager.audio_processor.AudioProcessor.fetch_cover_art"></a></p>
+<h4 id="fetch_cover_art">fetch_cover_art</h4>
+<pre><code class="language-python">def fetch_cover_art(mbid: str) -&gt; Optional[str]
+</code></pre>
+<p>Fetches album artwork URL from Cover Art Archive.</p>
+<p><a id="manager.video_processor"></a></p>
+<h1 id="managervideo_processor">manager.video_processor</h1>
+<p><a id="manager.video_processor.VideoProcessor"></a></p>
+<h2 id="videoprocessor-objects">VideoProcessor Objects</h2>
+<pre><code class="language-python">class VideoProcessor()
+</code></pre>
+<p>Class for processing video files, including format conversion.</p>
+<p><a id="manager.video_processor.VideoProcessor.convert_video"></a></p>
+<h4 id="convert_video">convert_video</h4>
+<pre><code class="language-python">def convert_video(format: str, content: bytes, mimetype: str,
+                  output_resolution: str) -&gt; Optional[bytes]
+</code></pre>
+<p>Converts a video file to the specified format and resolution.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>format</code> <em>str</em> - The target video format (e.g., 'mp4', 'avi').</li>
+<li><code>content</code> <em>bytes</em> - The binary content of the video file.</li>
+<li><code>mimetype</code> <em>str</em> - The MIME type of the input file.</li>
+<li><code>output_resolution</code> <em>str</em> - The desired resolution for the output video.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>Optional[bytes]</code> - The binary content of the converted video file,
+  or None if the format is unsupported.</li>
+</ul>
+<p><strong>Raises</strong>:</p>
+<ul>
+<li><code>ValueError</code> - If the specified format is not supported for conversion.</li>
+<li><code>RuntimeError</code> - If the video conversion fails.</li>
+</ul>
+<p><a id="manager.document_processor"></a></p>
+<h1 id="managerdocument_processor">manager.document_processor</h1>
+<p><a id="manager.document_processor.DocumentProcessor"></a></p>
+<h2 id="documentprocessor-objects">DocumentProcessor Objects</h2>
+<pre><code class="language-python">class DocumentProcessor()
+</code></pre>
+<p>Handles document format conversions (PDF, EPUB, TXT, DOCX).</p>
+<p><a id="manager.document_processor.DocumentProcessor.convert_document"></a></p>
+<h4 id="convert_document">convert_document</h4>
+<pre><code class="language-python">def convert_document(format: str, content: bytes,
+                     mimetype: str) -&gt; Optional[bytes]
+</code></pre>
+<p>Converts a document to the specified format.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>format</code> <em>str</em> - Target format ('txt', 'pdf', 'docx', 'epub').</li>
+<li><code>content</code> <em>bytes</em> - Raw document content.</li>
+<li><code>mimetype</code> <em>str</em> - MIME type of the document.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>Optional[bytes]</code> - Converted document content or None if unsupported format.</li>
+</ul>
+<p><a id="manager.document_processor.DocumentProcessor.convert_to_text"></a></p>
+<h4 id="convert_to_text">convert_to_text</h4>
+<pre><code class="language-python">def convert_to_text(content: bytes, mimetype: str) -&gt; bytes
+</code></pre>
+<p>Converts supported document formats into plain text using fitz (PyMuPDF).</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>content</code> <em>bytes</em> - Raw binary content of the document.</li>
+<li><code>mimetype</code> <em>str</em> - MIME type of the document.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>bytes</code> - Converted text content in UTF-8 encoding.</li>
+</ul>
+<p><a id="manager.document_processor.DocumentProcessor.convert_to_pdf"></a></p>
+<h4 id="convert_to_pdf">convert_to_pdf</h4>
+<pre><code class="language-python">def convert_to_pdf(content: bytes, mimetype: str) -&gt; bytes
+</code></pre>
+<p>Converts supported document formats into PDF using PyMuPDF.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>content</code> <em>bytes</em> - Raw binary content of the document.</li>
+<li><code>mimetype</code> <em>str</em> - MIME type of the document.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>bytes</code> - Converted PDF content.</li>
+</ul>
+<p><a id="manager.document_processor.DocumentProcessor.convert_to_epub"></a></p>
+<h4 id="convert_to_epub">convert_to_epub</h4>
+<pre><code class="language-python">def convert_to_epub(content: bytes, mimetype: str) -&gt; bytes
+</code></pre>
+<p>Converts the given document content into EPUB format.</p>
+<p>If the document is already EPUB, returns it unchanged.
+For other supported types, first converts to plain text and then
+creates an EPUB with a single chapter containing the text.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>content</code> <em>bytes</em> - Raw binary content of the document.</li>
+<li><code>mimetype</code> <em>str</em> - MIME type of the document.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>bytes</code> - Converted EPUB content.</li>
+</ul>
+<p><a id="manager.document_processor.DocumentProcessor.convert_to_docx"></a></p>
+<h4 id="convert_to_docx">convert_to_docx</h4>
+<pre><code class="language-python">def convert_to_docx(content: bytes, mimetype: str) -&gt; bytes
+</code></pre>
+<p>Converts supported document formats into DOCX using python-docx.</p>
+<p>If the document is already in DOCX (application/vnd.openxmlformats-officedocument.wordprocessingml.document
+or application/msword), returns it unchanged.
+For other supported formats, first converts to plain text then creates a DOCX with the text.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>content</code> <em>bytes</em> - Raw binary content of the document.</li>
+<li><code>mimetype</code> <em>str</em> - MIME type of the document.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>bytes</code> - Converted DOCX content.</li>
+</ul>
+<p><a id="manager.resource_id_manager"></a></p>
+<h1 id="managerresource_id_manager">manager.resource_id_manager</h1>
+<p><a id="manager.resource_id_manager.ResourceIdManager"></a></p>
+<h2 id="resourceidmanager-objects">ResourceIdManager Objects</h2>
+<pre><code class="language-python">class ResourceIdManager()
+</code></pre>
+<p>Manages <code>resource_id</code> assignments for a given resource type.
+- Stores <code>resource_id</code> as a set for optimal lookups and modifications.
+- Provides a thread-safe structure using <code>threading.Lock</code>.</p>
+<p><a id="manager.resource_id_manager.ResourceIdManager.__init__"></a></p>
+<h4 id="__init__">__init__</h4>
+<pre><code class="language-python">def __init__(resource_name: str, storage_backend: AbstractStorageBackend)
+</code></pre>
+<p>Initializes the resource ID manager.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>resource_name</code> <em>str</em> - The type of the resource (e.g., 'books', 'documents').</li>
+<li><code>storage_backend</code> <em>AbstractStorageBackend</em> - The backend used for storage operations.</li>
+</ul>
+<p><a id="manager.resource_id_manager.ResourceIdManager.generate_resource_id"></a></p>
+<h4 id="generate_resource_id">generate_resource_id</h4>
+<pre><code class="language-python">def generate_resource_id(user_id: str) -&gt; str
+</code></pre>
+<p>Generates a unique resource ID using UUID.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>user_id</code> <em>str</em> - The ID of the user who owns the resource.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>str</code> - A newly generated unique resource ID.</li>
+</ul>
+<p>Process:
+  1. Acquire thread lock for safe concurrent modifications.
+  2. Generate a new UUID-based resource ID.
+  3. Store the new resource ID in the set.
+  4. Return the newly created resource ID.</p>
+<p><a id="manager.resource_id_manager.ResourceIdManager.release_resource_id"></a></p>
+<h4 id="release_resource_id">release_resource_id</h4>
+<pre><code class="language-python">def release_resource_id(user_id: str, resource_id: str) -&gt; None
+</code></pre>
+<p>Deletes a resource ID for a user.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>user_id</code> <em>str</em> - The ID of the user who owns the resource.</li>
+<li><code>resource_id</code> <em>str</em> - The unique identifier for the resource.</li>
+</ul>
+<p>Process:
+  1. Acquire thread lock for safe concurrent access.
+  2. Remove the specified <code>resource_id</code> from the set.</p>
+<p><a id="manager.resource_id_manager.ResourceIdManager.get_resource_list"></a></p>
+<h4 id="get_resource_list">get_resource_list</h4>
+<pre><code class="language-python">def get_resource_list(user_id: str) -&gt; List[str]
+</code></pre>
+<p>Retrieves a list of resource IDs for a user.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>user_id</code> <em>str</em> - The ID of the user who owns the resources.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>List[str]</code> - A list of resource IDs.</li>
+</ul>
+<p>Process:
+  1. Acquire thread lock for safe concurrent access.
+  2. Convert the stored set to a list before returning.</p>
+<p><a id="manager.resource_id_manager.ResourceIdManager.count_resources"></a></p>
+<h4 id="count_resources">count_resources</h4>
+<pre><code class="language-python">def count_resources(user_id: str) -&gt; int
+</code></pre>
+<p>Returns the number of resources associated with a user.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>user_id</code> <em>str</em> - The ID of the user whose resources should be counted.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>int</code> - The number of resources available for the user.</li>
+</ul>
+<p>Process:
+  1. Acquire thread lock for safe concurrent access.
+  2. Return the length of the stored set.</p>
+<p><a id="manager.resource_id_manager.ResourceIdManager.exist_resource"></a></p>
+<h4 id="exist_resource">exist_resource</h4>
+<pre><code class="language-python">def exist_resource(user_id: str, resource_id: str) -&gt; bool
+</code></pre>
+<p>Checks if a resource ID exists for a user.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>user_id</code> <em>str</em> - The ID of the user who owns the resource.</li>
+<li><code>resource_id</code> <em>str</em> - The unique identifier for the resource.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>bool</code> - <code>True</code> if the resource exists, <code>False</code> otherwise.</li>
+</ul>
+<p>Process:
+  1. Acquire thread lock for safe concurrent access.
+  2. Verify presence of the <code>resource_id</code> in the stored set.</p>
+<p><a id="manager.content_id_manager"></a></p>
+<h1 id="managercontent_id_manager">manager.content_id_manager</h1>
+<p><a id="manager.content_id_manager.ContentIdManager"></a></p>
+<h2 id="contentidmanager-objects">ContentIdManager Objects</h2>
+<pre><code class="language-python">class ContentIdManager()
+</code></pre>
+<p>Manages <code>content_id</code> assignments for a given resource type.
+- Maintains a persistent set of content IDs per user and resource.
+- Ensures thread-safe operations using <code>threading.Lock</code>.</p>
+<p><a id="manager.content_id_manager.ContentIdManager.__init__"></a></p>
+<h4 id="__init___1">__init__</h4>
+<pre><code class="language-python">def __init__(resource_name: str, storage_backend: AbstractStorageBackend)
+</code></pre>
+<p>Initializes the content ID manager.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>resource_name</code> <em>str</em> - The type of the resource (e.g., 'books', 'documents').</li>
+<li><code>storage_backend</code> <em>AbstractStorageBackend</em> - The backend used for storage operations.</li>
+</ul>
+<p><a id="manager.content_id_manager.ContentIdManager.generate_content_id"></a></p>
+<h4 id="generate_content_id">generate_content_id</h4>
+<pre><code class="language-python">def generate_content_id(user_id: str, resource_id: str) -&gt; int
+</code></pre>
+<p>Generates the next available <code>content_id</code> within a resource.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>user_id</code> <em>str</em> - The ID of the user who owns the resource.</li>
+<li><code>resource_id</code> <em>str</em> - The unique identifier for the resource.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>int</code> - The next available <code>content_id</code>.</li>
+</ul>
+<p>Process:
+  1. Acquire thread lock for safe concurrent access.
+  2. Load existing IDs and determine the next available ID.
+  3. Prioritize IDs from <code>1</code> to <code>9</code>, then find the lowest unused integer.
+  4. Add the assigned <code>content_id</code> to the set and return it.</p>
+<p><a id="manager.content_id_manager.ContentIdManager.release_content_id"></a></p>
+<h4 id="release_content_id">release_content_id</h4>
+<pre><code class="language-python">def release_content_id(user_id: str, resource_id: str, content_id: int)
+</code></pre>
+<p>Releases a <code>content_id</code> when content is deleted.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>user_id</code> <em>str</em> - The ID of the user who owns the resource.</li>
+<li><code>resource_id</code> <em>str</em> - The unique identifier for the resource.</li>
+<li><code>content_id</code> <em>int</em> - The content ID to be released.</li>
+</ul>
+<p>Process:
+  1. Acquire thread lock for safe concurrent modifications.
+  2. Remove the specified <code>content_id</code> from the active set.</p>
+<p><a id="manager.content_id_manager.ContentIdManager.exist_content"></a></p>
+<h4 id="exist_content">exist_content</h4>
+<pre><code class="language-python">def exist_content(user_id: str, resource_id: str, content_id: int) -&gt; bool
+</code></pre>
+<p>Checks if a <code>content_id</code> exists for a given resource.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>user_id</code> <em>str</em> - The ID of the user who owns the resource.</li>
+<li><code>resource_id</code> <em>str</em> - The unique identifier for the resource.</li>
+<li><code>content_id</code> <em>int</em> - The content ID to check.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>bool</code> - <code>True</code> if the content exists, <code>False</code> otherwise.</li>
+</ul>
+<p>Process:
+  1. Acquire thread lock for safe concurrent access.
+  2. Verify if the <code>content_id</code> is present in the active set.</p>
+<p><a id="manager.content_id_manager.ContentIdManager.get_content_list"></a></p>
+<h4 id="get_content_list">get_content_list</h4>
+<pre><code class="language-python">def get_content_list(user_id: str, resource_id: str) -&gt; list
+</code></pre>
+<p>Retrieves all <code>content_ids</code> for a specified resource.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>user_id</code> <em>str</em> - The ID of the user who owns the resource.</li>
+<li><code>resource_id</code> <em>str</em> - The unique identifier for the resource.</li>
+</ul>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>list</code> - A list of all <code>content_ids</code> associated with the resource.</li>
+</ul>
+<p>Process:
+  1. Acquire thread lock to ensure thread-safe access.
+  2. Initialize the content ID set if not already loaded.
+  3. Retrieve and return the list of <code>content_ids</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>
