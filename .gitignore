@@ -32,7 +32,7 @@ logs/
 junk/
 
 # 秘密情報（環境変数や認証情報など）
-.env
+.env*
 *.key
 config/settings_local.py
 config/secrets.json
