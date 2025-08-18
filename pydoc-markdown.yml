@@ -1,0 +1,48 @@
+loaders:
+  - type: python
+    search_path: ["."]
+    packages:
+      - api
+      - auth
+      - bin
+      - config
+      - manager
+      - models
+      - services
+      - storage
+      - utils
+
+processors:
+  - type: filter
+  - type: smart
+  - type: crossref
+
+renderer:
+  type: mkdocs
+  pages:
+    - title: Home
+      name: index
+      source: README.md
+    - title: Memories Storage Docs
+      children:
+        - title: API
+          contents: [api, api.*]
+        - title: Auth
+          contents: [auth, auth.*]
+        - title: Config
+          contents: [config, config.*]
+        - title: Manager
+          contents: [manager, manager.*]
+        - title: Models
+          contents: [models, models.*]
+        - title: Services
+          contents: [services, services.*]
+        - title: Storage
+          contents: [storage, storage.*]
+        - title: Utils
+          contents: [utils, utils.*]
+
+  mkdocs_config:
+    site_name: Memories Storage Docs
+    theme: material
+    repo_url: https://github.com/forestlaw77/memories-storage
