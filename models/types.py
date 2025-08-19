@@ -25,6 +25,8 @@ class ContentMeta(TypedDict):
     created_at: str  # Timestamp when the content was created (ISO 8601 format)
     updated_at: str  # Timestamp when the content was last updated (ISO 8601 format)
     extra_info: Optional[ExtraInfo]  # Additional metadata specific to the content
+    file_path: Optional[str]
+    stored: bool
 
 
 class BasicMeta(TypedDict):

@@ -34,6 +34,7 @@ from manager.resource_id_manager import ResourceIdManager
 from models.types import BasicMeta, ContentMeta, DetailMeta, ExtraInfo, ResourceMeta
 from storage.abstract_backend import AbstractStorageBackend
 from utils.file_utils import get_mimetype, sanitize_filename
+from utils.misc import str_to_bool
 
 
 class BaseService:
@@ -295,6 +296,8 @@ class BaseService:
         content_hash: str,
         extra_info: Optional[ExtraInfo] = None,
         file_size: Optional[int] = None,
+        content_file_path: Optional[str] = None,
+        stored: bool = False,
     ) -> ContentMeta:
         """
         Creates metadata for a content.
@@ -327,6 +330,8 @@ class BaseService:
             "created_at": created_at,
             "updated_at": created_at,
             "extra_info": extra_info,
+            "file_path": content_file_path,
+            "stored": stored,
         }
         return content_meta
 
@@ -1068,20 +1073,20 @@ class BaseService:
             content_file = request.files.get("content-file", None)
             thumbnail_file = request.files.get("thumbnail-file", None)
 
+            # Get content_file_path from request
+            content_file_path = request.form.get("file-path") or request.args.get(
+                "file-path"
+            )
+
+            stored = str_to_bool(
+                request.form.get("stored") or request.args.get("stored", "false")
+            )
+
             # auto generate thumbnail request
-            auto_thumbnail: bool = request.args.get(
-                "auto-thumbnail", ""
-            ).strip().lower() in [
-                "true",
-                "yes",
-                "1",
-            ]
+            auto_thumbnail = str_to_bool(request.args.get("auto-thumbnail", ""))
+
             # auto extract exif request
-            auto_exif: bool = request.args.get("auto-exif", "").strip().lower() in [
-                "true",
-                "yes",
-                "1",
-            ]
+            auto_exif: bool = str_to_bool(request.args.get("auto-exif", ""))
 
             # Process detail metadata file
             if detail_file:
@@ -1206,6 +1211,8 @@ class BaseService:
                     content_hash,
                     extra_info,
                     content_file.content_length,
+                    content_file_path,
+                    stored,
                 )
 
             # Create structured resource metadata
@@ -1286,11 +1293,7 @@ class BaseService:
 
         with user_lock:
             # auto extract exif request
-            auto_exif: bool = request.args.get("auto-exif", "").strip().lower() in [
-                "true",
-                "yes",
-                "1",
-            ]
+            auto_exif: bool = str_to_bool(request.args.get("auto-exif", ""))
 
             # Validate resource ID
             response = self._validate_resource_id(user_id, resource_id)
@@ -1322,6 +1325,15 @@ class BaseService:
                     status_code=HTTPStatus.BAD_REQUEST,
                 )
             mimetype, filename, _, content_buffer = validation_result
+
+            # Get content_file_path from request
+            content_file_path = request.form.get("file-path") or request.args.get(
+                "file-path"
+            )
+
+            stored = str_to_bool(
+                request.form.get("stored") or request.args.get("stored", "false")
+            )
 
             # Retrieve existing resource metadata
             old_resource_meta = self.storage_backend.load_resource_meta(
@@ -1396,6 +1408,8 @@ class BaseService:
                 content_hash,
                 extra_info,
                 content_file.content_length,
+                content_file_path,
+                stored,
             )
 
             # Update resource metadata with new content
